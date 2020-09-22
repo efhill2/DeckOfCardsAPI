@@ -14,36 +14,35 @@ namespace DeckOfCardsAPI.Controllers
 {
     public class HomeController : Controller
     {
-        //private JsonDocument jDoc;
+        private JsonDocument jDoc;
         private readonly ILogger<HomeController> _logger;
 
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
         }
-        public async Task<IActionResult> GetDeck()
+        public async Task<string> GetDeck()
         {
-            HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri("https://deckofcardsapi.com");
-            var response = await client.GetAsync("/api/deck/new/shuffle/?deck_count=1");
-            Deck deck_id = await response.Content.ReadAsAync<Deck>();
-
-            return View(deck_id);
-
             //HttpClient client = new HttpClient();
-            //var response = await client.GetAsync("https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1");
-            //var deck = await response.Content.ReadAsStringAsync();
+            //client.BaseAddress = new Uri("https://deckofcardsapi.com");
+            //var response = await client.GetAsync("/api/deck/new/shuffle/?deck_count=1");
+            //Deck deck_id = await response.Content.ReadAsAync<Deck>();
+
+            //return View(deck_id);
+
+            HttpClient client = new HttpClient();
+            var response = await client.GetAsync("https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1");
+            var deck = await response.Content.ReadAsStringAsync();
 
 
 
-            //jDoc = JsonDocument.Parse(deck);
+            jDoc = JsonDocument.Parse(deck);
 
-            //jDoc.RootElement.GetProperty("deck_id").GetString();
+           return jDoc.RootElement.GetProperty("deck_id").GetString();
+                       
 
-            //var deckID = jDoc;
-
-            //return Content(deckID);
             
+
         }
         //public async Task<List<HomeController>> GetCards(string deckID)
         //{
